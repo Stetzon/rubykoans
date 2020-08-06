@@ -13,10 +13,24 @@
 # and
 #   about_triangle_project_2.rb
 #
+def invalid_lengths(a, b, c)
+  if a <= 0 or b <= 0 or c <= 0
+    true
+  elsif (a + b <= c) or (a + c <= b) or (b + c <= a)
+    true
+  else
+    false
+  end
+end
+
 def triangle(a, b, c)
+  if invalid_lengths(a, b, c)
+    raise TriangleError
+  end
+
   if a == b and a == c
     :equilateral
-  elsif a == b or b == c or a == c
+  elsif a == b or a == c or b == c
     :isosceles
   else
     :scalene

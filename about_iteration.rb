@@ -125,5 +125,6 @@ class AboutIteration < Neo::Koan
   # Using the previous method could result in a memory leak if we forget to close the file.
   #
   # When you get to the "AboutSandwichCode" koan, recheck your answer.
+  # correct, passing a block handles the "file sandwich"
 
 end

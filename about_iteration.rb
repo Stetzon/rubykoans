@@ -120,6 +120,9 @@ class AboutIteration < Neo::Koan
   #   # code to read 'file'
   #
   # ANS: It seems to be more the Ruby way
+  # follow-up: We need to make sure the file is closed once we're done working with it.
+  # By using a block, Ruby will close the file automatically.
+  # Using the previous method could result in a memory leak if we forget to close the file.
   #
   # When you get to the "AboutSandwichCode" koan, recheck your answer.
 

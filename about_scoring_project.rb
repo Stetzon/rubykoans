@@ -28,12 +28,59 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 # More scoring examples are given in the tests below:
 #
 # Your goal is to write the score method.
+class DiceError < StandardError
+end
+
+class TooManyDiceError < DiceError
+end
+
+class InvalidDieError < DiceError
+end
 
 def score(dice)
   # You need to write this method
+  
+  score = 0
+
+  # error checking
+  if dice.length < 1
+    return score
+  elsif dice.length > 5
+    raise TooManyDiceError
+  elsif dice.max > 6 or dice.min < 1
+    raise InvalidDieError
+  end
+
+  # get counts
+  counts = Hash.new 0
+  dice.each do |die|
+    counts[die] += 1
+  end
+
+  # calculate score
+  counts.each do |num, count|
+    if count >= 3
+      if num == 1 then score += 1000 else score += num * 100 end
+      count -= 3
+    end
+
+    score += count * 100 if num == 1
+    score += count * 50 if num == 5
+  end
+
+  score
 end
 
 class AboutScoringProject < Neo::Koan
+  def test_too_many_dice_throws_error
+    assert_raise(TooManyDiceError) do score([1,1,1,1,1,1]) end
+  end
+
+  def test_invalid_die_number_throws_error
+    assert_raise(InvalidDieError) do score([7]) end
+    assert_raise(InvalidDieError) do score([0]) end
+  end
+
   def test_score_of_an_empty_list_is_zero
     assert_equal 0, score([])
   end
